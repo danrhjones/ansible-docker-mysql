@@ -19,6 +19,6 @@ Open a browser on host and go to URL
 
 `http://localhost:5001                            => Welcome`
   
-`http://localhost:5001/how%20are%20you            => I am good, how about you?`
+`http://localhost:5001/how_are_you            => I am good, how about you?`
   
-`http://localhost:5001/read%20from%20database     => JOHN`
+`http://localhost:5001/database     => JOHN`
