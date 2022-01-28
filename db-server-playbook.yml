@@ -14,8 +14,7 @@
           - python-setuptools 
           - python-dev 
           - build-essential 
-      vars:
-        ansible_python_interpreter: /usr/bin/python
+      
 
     - name: install mysql
       apt: name=mysql-server update_cache=yes cache_valid_time=3600 state=present
@@ -29,6 +28,8 @@
       pip:
         name: pymysql
         state: present
+      vars:
+        ansible_python_interpreter: /usr/bin/python
 
     - name: start up the mysql service
       shell: "service mysql start"
