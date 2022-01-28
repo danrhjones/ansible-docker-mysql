@@ -4,6 +4,7 @@
   vars:
     mysql_root_password: password
 
+
   tasks:
     - name: Install all required dependacies
       apt: name={{ item }} state=latest update_cache=yes
@@ -13,7 +14,8 @@
           - python-setuptools 
           - python-dev 
           - build-essential 
-          - cryptography
+      vars:
+        ansible_python_interpreter: /usr/bin/python
 
     - name: install mysql
       apt: name=mysql-server update_cache=yes cache_valid_time=3600 state=present
