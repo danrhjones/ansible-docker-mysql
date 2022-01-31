@@ -2,8 +2,7 @@
 - hosts: mysql
 
   vars:
-    mysql_root_password: password
-
+    
 
   tasks:
     - name: Install all required dependacies
@@ -14,71 +13,22 @@
           - python-setuptools 
           - python-dev 
           - build-essential 
-      
-
-    - name: install mysql
-      apt: name=mysql-server update_cache=yes cache_valid_time=3600 state=present
-
-    - name: pip install pymysql
-      pip:
-        name: PyMySQL
-
-    - name: Make sure pymysql is present
-      # become: yes # needed if the other tasks are not played as root
-      pip:
-        name: pymysql
-        state: present
-      vars:
-        ansible_python_interpreter: /usr/bin/python
-
-    - name: start up the mysql service
-      shell: "service mysql start"
-
-    - name: ensure mysql is enabled to run on startup
-      service: name=mysql state=started enabled=true
-
-    - name: Set password for root user
-      mysql_user:
-        name: "root"
-        password: "{{ mysql_root_password }}"
-        priv: '*.*:ALL,GRANT'
-        host: 'localhost'
-        login_unix_socket: /var/run/mysqld/mysqld.sock
-        state: present
-
-    - name: Save root password in .my.cnf
-      template:
-        src: templates/my.cnf.j2
-        dest: /root/.my.cnf
-        owner: root
-        mode: '0600'
-
-    - name: Create Database user
-      mysql_user:
-        name: db_user
-        password: Passw0rd
-        priv: '*.*:ALL'
-        state: present
-        host: '%'
 
     - name: Install flask dependacies
       pip:
         name: flask, flask-mysql
         state: present
+      
+    - name: pip install pymysql
+      pip:
+        name: PyMySQL
 
-    - name: create a new database
-      mysql_db: name=employee_db state=present login_user=root login_password={{ mysql_root_password }}
+    - name: Make sure pymysql is present
+          pip:
+            name: pymysql
+            state: present
+          vars:
+            ansible_python_interpreter: /usr/bin/python
 
-    # - name: add sample data to database
-      # copy: src=dump.sql dest=/tmp/dump.sql
-
-    - name: insert sample data into database
-      mysql_db: name=employee_db state=import target=/dump.sql login_user=root login_password={{ mysql_root_password }}
-
-  
-    - name: Copy source code
-      copy: src=app.py dest=/opt/app.py
-
-    - name: Start web mysql-server
-      shell: FLASK_APP=/opt/app.py nohup flask run --host=0.0.0.0 &
-
+    - include: tasks/deploy_db.yml        
+    - include: tasks/deploy_web.yml

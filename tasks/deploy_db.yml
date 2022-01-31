@@ -1,0 +1,43 @@
+    - name: install mysql
+      apt: name=mysql-server update_cache=yes cache_valid_time=3600 state=present
+
+    
+
+    - name: start up the mysql service
+      shell: "service mysql start"
+
+    - name: ensure mysql is enabled to run on startup
+      service: name=mysql state=started enabled=true
+
+    - name: Set password for root user
+      mysql_user:
+        name: "root"
+        password: "{{ mysql_root_password }}"
+        priv: '*.*:ALL,GRANT'
+        host: 'localhost'
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+        state: present
+
+    - name: Save root password in .my.cnf
+      template:
+        src: templates/my.cnf.j2
+        dest: /root/.my.cnf
+        owner: root
+        mode: '0600'
+
+    - name: Create Database user
+      mysql_user:
+        name: {{ db_user }}
+        password: {{ db_password }}
+        priv: '*.*:ALL'
+        state: present
+        host: '%'
+
+    - name: create a new database
+      mysql_db: name={{ db_name }} state=present login_user=root login_password={{ mysql_root_password }}
+
+    # - name: add sample data to database
+      # copy: src=dump.sql dest=/tmp/dump.sql
+
+    - name: insert sample data into database
+      mysql_db: name={{ db_name }} state=import target=/dump.sql login_user=root login_password={{ mysql_root_password }}
