@@ -1,5 +1,5 @@
 ---
-- hosts: mysql
+- hosts: target1
 
   tasks:
     - name: Install all required dependacies
