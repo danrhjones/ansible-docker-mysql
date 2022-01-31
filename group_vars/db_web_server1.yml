@@ -1,4 +1,4 @@
-[db_and_web_servers]
+[mysql]
 
 mysql_root_password: password
 db_name: employee_db

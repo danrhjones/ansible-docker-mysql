@@ -1,9 +1,6 @@
 ---
 - hosts: mysql
 
-  vars:
-    
-
   tasks:
     - name: Install all required dependacies
       apt: name={{ item }} state=latest update_cache=yes
@@ -24,11 +21,11 @@
         name: PyMySQL
 
     - name: Make sure pymysql is present
-          pip:
-            name: pymysql
-            state: present
-          vars:
-            ansible_python_interpreter: /usr/bin/python
+      pip:
+        name: pymysql
+        state: present
+      vars:
+        ansible_python_interpreter: /usr/bin/python
 
     - include: tasks/deploy_db.yml        
     - include: tasks/deploy_web.yml
