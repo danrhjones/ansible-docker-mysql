@@ -37,5 +37,5 @@
     # - name: add sample data to database
       # copy: src=dump.sql dest=/tmp/dump.sql
 
-    - name: insert sample data into database
-      mysql_db: name=employee_db state=import target=/dump.sql login_user=root login_password={{ mysql_root_password }}
+    # - name: insert sample data into database
+      # mysql_db: name=employee_db state=import target=/dump.sql login_user=root login_password={{ mysql_root_password }}
