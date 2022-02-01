@@ -1,0 +1,24 @@
+    - name: Install all required dependacies
+      apt: name={{ item }} state=latest update_cache=yes
+      with_items:
+          - python
+          - software-properties-common
+          - python-setuptools 
+          - python-dev 
+          - build-essential 
+
+    - name: Install flask dependacies
+      pip:
+        name: flask, flask-mysql
+        state: present
+      
+    - name: pip install pymysql
+      pip:
+        name: PyMySQL
+
+    - name: Make sure pymysql is present
+      pip:
+        name: pymysql
+        state: present
+      vars:
+        ansible_python_interpreter: /usr/bin/python
