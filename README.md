@@ -12,7 +12,7 @@ clone this repo
 
 then run
 
-`ansible-playbook db-server-playbook.yml -i hosts`
+`ansible-playbook db-server-playbook.yml -i inventory.txt`
 
 
 Open a browser on host and go to URL

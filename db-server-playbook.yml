@@ -1,9 +1,0 @@
----
-- hosts: target1
-  vars_files:
-    - "host_vars/target.yml"
-
-  roles:
-    - python
-    - mysql_db
-    - web
