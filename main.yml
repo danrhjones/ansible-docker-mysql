@@ -3,5 +3,5 @@
 
   roles:
     - python
-#    - mysql_db
+    - mysql_db
     - web
