@@ -1,11 +1,12 @@
     - name: Install all required dependacies
-      apt: name={{ item }} state=latest update_cache=yes
-      with_items:
+      - name: Install all required dependacies
+      apt:
+        name:
           - python
           - software-properties-common
-          - python-setuptools 
-          - python-dev 
-          - build-essential 
+          - python-setuptools
+          - python-dev
+          - build-essential
 
     - name: Install flask dependacies
       pip:
